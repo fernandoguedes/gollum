@@ -38,5 +38,5 @@ module.exports = class MainCrawler {
         return (str.replace(translate_re, function(match) {
             return translate[match];
         }).toLowerCase());
-    };
+    }
 }
