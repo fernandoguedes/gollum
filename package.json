@@ -1,0 +1,24 @@
+{
+  "name": "gollum",
+  "version": "1.0.0",
+  "description": "Gollum is specialized crawler in cinemas sites.",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha --recursive tests/ --timeout 50000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fernandoguedes/gollum.git"
+  },
+  "keywords": [
+    "crawler",
+    "nocinema",
+    "gollum"
+  ],
+  "author": "Luís Fernando Guedes",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fernandoguedes/gollum/issues"
+  },
+  "homepage": "https://github.com/fernandoguedes/gollum#readme"
+}
