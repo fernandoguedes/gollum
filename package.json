@@ -20,5 +20,13 @@
   "bugs": {
     "url": "https://github.com/fernandoguedes/gollum/issues"
   },
-  "homepage": "https://github.com/fernandoguedes/gollum#readme"
+  "homepage": "https://github.com/fernandoguedes/gollum#readme",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3"
+  },
+  "dependencies": {
+    "cheerio": "^0.20.0",
+    "request-promise": "^3.0.0"
+  }
 }
