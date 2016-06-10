@@ -3,10 +3,11 @@
 let path = require('path');
 let rp = require('request-promise');
 let $ = require('cheerio');
+let jsdom = require('jsdom');
 
 module.exports = class MainCrawler {
 
-    getPage(url) {
+    getStaticPage(url) {
         let options = {
             uri: url,
             transform: function (body) {
@@ -14,16 +15,34 @@ module.exports = class MainCrawler {
             }
         };
 
-        return new Promise(
-                function (resolve, reject) {
-                    rp(options)
-                        .then(function($) {
-                            return resolve($);
-                        })
-                        .catch(function(error) {
-                            return reject(error);
-                        });
+        return new Promise(function (resolve, reject) {
+            rp(options)
+                .then(function($) {
+                    return resolve($);
+                })
+                .catch(function(error) {
+                    return reject(error);
                 });
+        });
+
+
+    }
+
+    getDynamicPage(url) {
+        return new Promise(function(resolve, reject) {
+            jsdom.env({
+                url: url,
+                scripts: ["http://code.jquery.com/jquery.js"],
+                done: function (err, window) {
+                    if (err) {
+                        return reject(err);
+                    }
+
+                    let $ = window.$;
+                    return resolve($);
+                }
+            });
+        });
     }
 
     stringNormalize(str) {
