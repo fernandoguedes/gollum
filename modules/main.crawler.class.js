@@ -7,13 +7,18 @@ let jsdom = require('jsdom');
 
 module.exports = class MainCrawler {
 
-    getStaticPage(url) {
+    getStaticPage(url, headers) {
         let options = {
             uri: url,
+            headers: {},
             transform: function (body) {
                 return $.load(body);
             }
         };
+
+        if (headers) {
+            options.headers = headers;
+        }
 
         return new Promise(function (resolve, reject) {
             rp(options)
@@ -58,4 +63,5 @@ module.exports = class MainCrawler {
             return translate[match];
         }).toLowerCase());
     }
+
 }
