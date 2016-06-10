@@ -11,7 +11,7 @@ module.exports = class CinesystemCrawler extends MainCrawler {
 
     getSchedule(url) {
         return new Promise((resolve, reject) => {
-            this.mineSite(url)
+            this._mineSite(url)
                 .then(function(schedule) {
                     return resolve(schedule);
                 });
@@ -19,7 +19,7 @@ module.exports = class CinesystemCrawler extends MainCrawler {
         });
     }
 
-    mineSite(url) {
+    _mineSite(url) {
         let _this = this;
         return new Promise((resolve, reject) => {
             super.getStaticPage(url)
