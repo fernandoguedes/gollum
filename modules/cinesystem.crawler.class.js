@@ -22,7 +22,7 @@ module.exports = class CinesystemCrawler extends MainCrawler {
     mineSite(url) {
         let _this = this;
         return new Promise((resolve, reject) => {
-            super.getPage(url)
+            super.getStaticPage(url)
                 .then(function($) {
                     let movies = [];
                     let dom = '.repeat-filmes li';
