@@ -14,7 +14,15 @@ describe('CinesystemCrawler', () => {
 
         Crawler.getSchedule(url)
             .then(function(json) {
-                expect(json).to.be.an('object');
+                expect(json.city)
+                    .to.be.equal('Florianópolis');
+
+                expect(json.place)
+                    .to.be.equal('Shopping Center Iguatemi');
+
+                expect(json.sessions)
+                    .to.not.be.null;
+
                 done();
             })
             .catch(done);

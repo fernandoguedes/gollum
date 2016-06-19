@@ -14,7 +14,15 @@ describe('Cinespaço', () => {
 
         Crawler.getSchedule(url, city)
             .then(function(json) {
-                expect(json).to.be.an('object');
+                expect(json.city)
+                    .to.be.equal('Florianópolis');
+
+                expect(json.place)
+                    .to.be.equal('Beiramar Shopping');
+
+                expect(json.sessions)
+                    .to.not.be.null;
+
                 done();
             })
             .catch(done);
