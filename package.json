@@ -1,5 +1,5 @@
 {
-  "name": "gollum",
+  "name": "gollum-nocinema",
   "version": "1.0.0",
   "description": "Gollum is specialized crawler in cinemas sites.",
   "main": "index.js",
@@ -13,7 +13,9 @@
   "keywords": [
     "crawler",
     "nocinema",
-    "gollum"
+    "gollum",
+    "cinema",
+    "schedules"
   ],
   "author": "Luís Fernando Guedes",
   "license": "ISC",
