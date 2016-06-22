@@ -82,6 +82,7 @@ module.exports = class CinesystemCrawler extends MainCrawler {
         });
     }
 
+    // @TODO: Get all codes from cookies
     _getCityCookie(city) {
         let cities = {
             'florianopolis': 8
