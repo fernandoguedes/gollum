@@ -25,3 +25,18 @@ gollum
                 console.log(err);
             });
 ```
+### Using a specific cinema
+
+```javascript
+let CinemarkCrawler = require('gollum-nocinema').CinemarkCrawler;
+let url = 'http://cinemark.com.br/programacao/florianopolis/floripa-shopping/24/703'; // valid cinemark url
+
+CinemarkCrawler
+    .getSchedule(url)
+        .then(function(schedule) {
+            console.log('Schedule of Cinemark in JSON: ', schedule);
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
+```
