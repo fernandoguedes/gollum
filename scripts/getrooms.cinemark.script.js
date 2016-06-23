@@ -4,6 +4,9 @@
 // To execute: node scripts/getrooms.cinemark.script.js
 // Output: json of cinema/rooms
 
+const fs = require('fs');
+const path = require('path');
+
 let _Cidades = [];
 let _Cinemas = [];
 
@@ -116,43 +119,56 @@ function mountUrl(cinemaObj) {
     return url;
 }
 
-_Cinemas.forEach(function(val, key) {
+getAllCinemas();
+
+function getAllCinemas() {
     let cinemasArr = [];
-    let cinemaObj = {
-        name: String,
-        id: 'Number',
-        city: stringNormalize(_Cidades[key]),
-        cityId: key,
-        url: String
-    };
+    _Cinemas.forEach(function(val, key) {
+        let cinemaObj = {
+            name: String,
+            id: 'Number',
+            city: stringNormalize(_Cidades[key]),
+            cityId: key,
+            url: String
+        };
 
-    if (val.length > 3) {
+        if (val.length > 3) {
 
-        val.forEach(function(v, k) {
+            val.forEach(function(v, k) {
 
-            let cinemaObj = {
-                name: String,
-                id: null,
-                city: stringNormalize(_Cidades[key]),
-                cityId: key
-            };
+                let cinemaObj = {
+                    name: String,
+                    id: null,
+                    city: stringNormalize(_Cidades[key]),
+                    cityId: key
+                };
 
-            if (isOdd(k)) {
-                cinemaObj.id = val[k - 1];
-                cinemaObj.name = stringNormalize(v);
-                cinemaObj.url = mountUrl(cinemaObj);
-                cinemasArr.push(cinemaObj)
-            };
+                if (isOdd(k)) {
+                    cinemaObj.id = val[k - 1];
+                    cinemaObj.name = stringNormalize(v);
+                    cinemaObj.url = mountUrl(cinemaObj);
+                    cinemasArr.push(cinemaObj)
+                };
 
-        });
+            });
 
-    } else {
-        cinemaObj.id = stringNormalize(val[0]);
-        cinemaObj.name = stringNormalize(val[1]);
-        cinemaObj.url = mountUrl(cinemaObj);
-        cinemasArr.push(cinemaObj);
-    }
+        } else {
+            cinemaObj.id = stringNormalize(val[0]);
+            cinemaObj.name = stringNormalize(val[1]);
+            cinemaObj.url = mountUrl(cinemaObj);
+            cinemasArr.push(cinemaObj);
+        }
 
-    console.log(cinemasArr);
+    });
 
-});
+    const dir = path.join(__dirname, '../static/', 'urls.cinemark.json');
+
+    fs.writeFile(dir, JSON.stringify(cinemasArr), function(err) {
+
+        if (err) {
+            return console.log(err);
+        }
+
+        console.log("The cinemark URLs json was saved!");
+    });
+}
