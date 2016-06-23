@@ -8,7 +8,7 @@ let CinemarkCrawler = require(path.join(__dirname, '../../modules/', 'cinemark.c
 
 describe('CinemarkCrawler', () => {
 
-    const url = 'http://www.cinesystem.com.br/florianopolis/programacao';
+    const url = 'http://cinemark.com.br/programacao/florianopolis/floripa-shopping/24/703';
     let Crawler;
 
     before(function() {
