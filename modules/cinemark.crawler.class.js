@@ -77,4 +77,10 @@ module.exports = class CinemarkCrawler extends MainCrawler {
         let dom = '#date-{{date}}-703 div.filme'.replace('{{date}}', date);
         return dom;
     }
+
+    getCinemasURLs() {
+        const urls = require('../static/urls.cinemark.json');
+        return urls;
+    }
+
 }

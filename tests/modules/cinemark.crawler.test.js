@@ -7,11 +7,16 @@ let path = require('path');
 let CinemarkCrawler = require(path.join(__dirname, '../../modules/', 'cinemark.crawler.class'));
 
 describe('CinemarkCrawler', () => {
-    it('getSchedule(): Should return a valid schedule JSON', (done) => {
-        let url = 'http://cinemark.com.br/programacao/florianopolis/floripa-shopping/24/703';
-        CinemarkCrawler = new CinemarkCrawler();
 
-        CinemarkCrawler.getSchedule(url)
+    const url = 'http://www.cinesystem.com.br/florianopolis/programacao';
+    let Crawler;
+
+    before(function() {
+        Crawler = new CinemarkCrawler();
+    });
+
+    it('getSchedule(): Should return a valid schedule JSON', (done) => {
+        Crawler.getSchedule(url)
             .then(function(json) {
                 expect(json.city)
                     .to.be.equal('Florianópolis');
@@ -26,4 +31,11 @@ describe('CinemarkCrawler', () => {
             })
             .catch(done);
     });
+
+    it('getCinemasURLs(): Should return a valid URLs cinemas JSON', (done) => {
+        let json = Crawler.getCinemasURLs();
+        expect(json).to.not.be.null;
+        done();
+    });
+
 });
