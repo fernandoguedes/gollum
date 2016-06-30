@@ -6,12 +6,15 @@ let path = require('path');
 // Import classes for testing
 let CinesystemCrawler = require(path.join(__dirname, '../../modules', 'cinesystem.crawler.class'));
 
-
 describe('CinesystemCrawler', () => {
-    it('getSchedule(): Should return schedule JSON', (done) => {
-        let url = 'http://www.cinesystem.com.br/florianopolis/programacao';
-        let Crawler = new CinesystemCrawler();
+    const url = 'http://www.cinesystem.com.br/florianopolis/programacao';;
+    let Crawler;
 
+    before(function() {
+        Crawler = new CinesystemCrawler();
+    });
+
+    it('getSchedule(): Should return schedule JSON', (done) => {
         Crawler.getSchedule(url)
             .then(function(json) {
                 expect(json.city)
@@ -23,6 +26,15 @@ describe('CinesystemCrawler', () => {
                 expect(json.sessions)
                     .to.not.be.null;
 
+                done();
+            })
+            .catch(done);
+    });
+
+    it('getCinemasURLs(): Should return a valid URLs cinemas JSON', (done) => {
+        Crawler.getCinemasURLs()
+            .then(function(json) {
+                expect(json).to.not.be.null;
                 done();
             })
             .catch(done);

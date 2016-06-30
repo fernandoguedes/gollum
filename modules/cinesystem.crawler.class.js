@@ -69,4 +69,33 @@ module.exports = class CinesystemCrawler extends MainCrawler {
         });
     }
 
+    getCinemasURLs() {
+        return new Promise((resolve, reject) => {
+            const url = 'http://www.cinesystem.com.br';
+            super.getStaticPage(url)
+                .then(function($) {
+                    let cinemaObj = {
+
+                    };
+                    let ulElem = $('.menu li:nth-child(6) div:nth-child(2) ul:nth-child(1)').html();
+                    ulElem = ulElem
+                        .replace('/<li>/g', '')
+                        .replace('/</li>/g', '')
+                        .replace('<li class="arrow">', '');
+
+                    let urls = ulElem.match(/<a(.*?)<\/a>/g);
+                    urls.forEach(function(v, k) {
+                        let temp = v.split(/"(.*?)"/)[2].replace('>', '').replace('</a>', '')
+                        let urlCinema = url + v.match(/"(.*?)"/)[1];
+                        let name = temp.match(/\((.*?)\)/)[1].trim();
+                        let city = temp.match(/[^()]+/)[0].trim();
+                    });
+                    return resolve()
+                })
+                .catch(function(err) {
+                    return reject();
+                });
+        });
+    }
+
 }
