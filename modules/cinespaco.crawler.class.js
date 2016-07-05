@@ -100,4 +100,44 @@ module.exports = class CinesystemCrawler extends MainCrawler {
         return headers
     }
 
+    getCinemasURLs() {
+        let _this = this;
+        return new Promise((resolve, reject) => {
+            const url = 'http://cinespaco.com.br/_services/cidades.php';
+            super.getStaticPage(url)
+                .then(($) => {
+                    let placesArr = [];
+                    let cinemaObj = {
+                        place: String,
+                        place_label: String,
+                        city: String,
+                        city_label: String,
+                        url: String
+                    };
+
+                    $('li').each(function() {
+                        let place = _this.stringNormalize($(this).find('a').text());
+                        let place_normalized = $(this).find('a').text().toLowerCase();
+                        cinemaObj.place_label = place_normalized;
+                        cinemaObj.place = place;
+                        cinemaObj.city_label = place_normalized;
+                        cinemaObj.city = place;
+                        cinemaObj.url = $(this).find('a').attr('href');
+                        placesArr.push(cinemaObj);
+                    });
+
+                    _this.writeUrlsFile('cinespaco', placesArr)
+                        .then(function(data) {
+                            return resolve(data);
+                        })
+                        .catch(function(err) {
+                            return reject(err);
+                        });
+                })
+                .catch(function(err) {
+                    return reject(err);
+                });
+        });
+    }
+
 }

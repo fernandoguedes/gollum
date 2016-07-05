@@ -7,11 +7,16 @@ let path = require('path');
 let Cinespaco = require(path.join(__dirname, '../../modules', 'cinespaco.crawler.class'));
 
 describe('Cinespaço', () => {
-    it('getSchedule(): Should return schedule JSON', (done) => {
-        let url = 'http://cinespaco.com.br/em-cartaz/';
-        let city = 'florianopolis';
-        let Crawler = new Cinespaco();
+    const url = 'http://cinespaco.com.br/em-cartaz/';
+    const city = 'florianopolis';
 
+    let Crawler;
+
+    before(function() {
+        Crawler = new Cinespaco();
+    });
+
+    it('getSchedule(): Should return schedule JSON', (done) => {
         Crawler.getSchedule(url, city)
             .then(function(json) {
                 expect(json.city)
@@ -23,6 +28,15 @@ describe('Cinespaço', () => {
                 expect(json.sessions)
                     .to.not.be.null;
 
+                done();
+            })
+            .catch(done);
+    });
+
+    it('getCinemasURLs(): Should return a valid URLs cinemas JSON', (done) => {
+        Crawler.getCinemasURLs()
+            .then(function(json) {
+                expect(json).to.not.be.null;
                 done();
             })
             .catch(done);
