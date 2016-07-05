@@ -1,9 +1,14 @@
 'use strict';
 
+// Require node_modules dependencies
 let path = require('path');
 let rp = require('request-promise');
 let $ = require('cheerio');
 let jsdom = require('jsdom');
+let fs = require('fs');
+
+// Require other classes, files or configs
+const staticDir = path.join(__dirname, '../static/', 'urls.{{cinema}}.json');
 
 module.exports = class MainCrawler {
 
@@ -62,6 +67,22 @@ module.exports = class MainCrawler {
         return (str.replace(translate_re, function(match) {
             return translate[match];
         }).toLowerCase());
+    }
+
+    writeUrlsFile(cinema, data) {
+        let dataStringified = JSON.stringify(data);
+        let fileDir = staticDir.replace('{{cinema}}', cinema);
+
+        return new Promise(function(resolve, reject) {
+            fs.writeFile(fileDir, dataStringified, function(err) {
+                if (err) {
+                    return reject(err);
+                }
+
+                return resolve(dataStringified)
+            });
+        });
+
     }
 
 }
