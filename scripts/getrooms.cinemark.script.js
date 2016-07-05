@@ -111,11 +111,11 @@ function stringNormalize(str) {
     translate_re = /[àáâãäåæçèéêëìíîïðñòóôõöøùúûüýþßàáâãäåæçèéêëìíîïðñòóôõöøùúûýýþÿŕŕ]/gim;
     return (str.replace(translate_re, function(match) {
         return translate[match];
-    }).replace(/\s+/g, '-').toLowerCase());
+    }).toLowerCase());
 }
 
 function mountUrl(cinemaObj) {
-    let url = `http://cinemark.com.br/programacao/${cinemaObj.city}/${cinemaObj.name}/${cinemaObj.cityId}/${cinemaObj.id}`;
+    let url = `http://cinemark.com.br/programacao/${cinemaObj.city}/${cinemaObj.place}/${cinemaObj.cityId}/${cinemaObj.id}`;
     return url;
 }
 
@@ -125,9 +125,10 @@ function getAllCinemas() {
     let cinemasArr = [];
     _Cinemas.forEach(function(val, key) {
         let cinemaObj = {
-            name: String,
-            id: 'Number',
+            place: String,
+            place_label: String,
             city: stringNormalize(_Cidades[key]),
+            city_label: _Cidades[key].toLowerCase(),
             cityId: key,
             url: String
         };
@@ -137,32 +138,40 @@ function getAllCinemas() {
             val.forEach(function(v, k) {
 
                 let cinemaObj = {
-                    name: String,
-                    id: null,
+                    place: String,
+                    place_label: String,
                     city: stringNormalize(_Cidades[key]),
-                    cityId: key
+                    city_label: _Cidades[key].toLowerCase(),
+                    url: String
                 };
 
                 if (isOdd(k)) {
                     cinemaObj.id = val[k - 1];
-                    cinemaObj.name = stringNormalize(v);
+                    cinemaObj.place = stringNormalize(v);
+                    cinemaObj.place_label = v.toLowerCase();
                     cinemaObj.url = mountUrl(cinemaObj);
+                    cinemaObj.url = cinemaObj.url.replace(/\s+/g, '-');
                     cinemasArr.push(cinemaObj)
                 };
 
             });
 
         } else {
-            cinemaObj.id = stringNormalize(val[0]);
-            cinemaObj.name = stringNormalize(val[1]);
+            cinemaObj.id = val[0];
+            cinemaObj.place = stringNormalize(val[1]);
+            cinemaObj.place_label = val[1].toLowerCase();
             cinemaObj.url = mountUrl(cinemaObj);
+            cinemaObj.url = cinemaObj.url.replace(/\s+/g, '-');
             cinemasArr.push(cinemaObj);
         }
+
+        delete cinemaObj.cityId;
+        delete cinemaObj.id;
 
     });
 
     const dir = path.join(__dirname, '../static/', 'urls.cinemark.json');
-
+    console.log(cinemasArr);
     fs.writeFile(dir, JSON.stringify(cinemasArr), function(err) {
 
         if (err) {
