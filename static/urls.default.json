@@ -1,7 +1,1 @@
-{
-    "place": "place",
-    "place_label": "place_label",
-    "city": "city",
-    "city_label": "city_label",
-    "url": "url"
-}
+{"place":"place","place_label":"place_label","city":"city","city_label":"city_label","url":"url"}
