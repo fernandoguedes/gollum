@@ -69,31 +69,70 @@ module.exports = class CinesystemCrawler extends MainCrawler {
         });
     }
 
+    replaceHtmlChars(str) {
+        let strReplaced = str
+            .replace('&#xF3;', 'ó')
+            .replace('&#xE2;', 'â')
+            .replace('&#xE1;', 'á')
+            .replace('&#xE3;', 'ã')
+            .replace('&#xED;', 'í')
+            .replace('&#xF3;', 'ó')
+            .replace('&#xE9;', 'é');
+
+        return strReplaced;
+    }
+
     getCinemasURLs() {
+        let _this = this;
         return new Promise((resolve, reject) => {
             const url = 'http://www.cinesystem.com.br';
             super.getStaticPage(url)
-                .then(function($) {
+                .then(($) => {
+                    let placesArr = [];
                     let cinemaObj = {
-
+                        place: String,
+                        place_label: String,
+                        city: String,
+                        city_label: String,
+                        url: String
                     };
+
                     let ulElem = $('.menu li:nth-child(6) div:nth-child(2) ul:nth-child(1)').html();
                     ulElem = ulElem
                         .replace('/<li>/g', '')
                         .replace('/</li>/g', '')
                         .replace('<li class="arrow">', '');
-
                     let urls = ulElem.match(/<a(.*?)<\/a>/g);
                     urls.forEach(function(v, k) {
                         let temp = v.split(/"(.*?)"/)[2].replace('>', '').replace('</a>', '')
+
                         let urlCinema = url + v.match(/"(.*?)"/)[1];
-                        let name = temp.match(/\((.*?)\)/)[1].trim();
-                        let city = temp.match(/[^()]+/)[0].trim();
+                        let place_label = _this.replaceHtmlChars(temp.match(/\((.*?)\)/)[1].trim()).toLowerCase();
+                        let place = _this.stringNormalize(place_label);
+                        let city_label = _this.replaceHtmlChars(temp.match(/[^()]+/)[0].trim()).toLowerCase();
+                        let city = _this.stringNormalize(city_label);
+
+                        cinemaObj.place = place;
+                        cinemaObj.place = place;
+                        cinemaObj.place_label = place_label;
+                        cinemaObj.city = city;
+                        cinemaObj.city_label = city_label;
+                        cinemaObj.url = urlCinema;
+
+                        placesArr.push(cinemaObj);
                     });
-                    return resolve()
+
+                    _this.writeUrlsFile('cinesystem', placesArr)
+                        .then(function(val) {
+                            return resolve(val);
+                        })
+                        .catch(function(err) {
+                            return reject(err);
+                        });
+
                 })
                 .catch(function(err) {
-                    return reject();
+                    return reject(err);
                 });
         });
     }
