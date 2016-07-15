@@ -69,60 +69,42 @@ module.exports = class CinesystemCrawler extends MainCrawler {
         });
     }
 
-    replaceHtmlChars(str) {
-        let strReplaced = str
-            .replace('&#xF3;', 'ó')
-            .replace('&#xE2;', 'â')
-            .replace('&#xE1;', 'á')
-            .replace('&#xE3;', 'ã')
-            .replace('&#xED;', 'í')
-            .replace('&#xF3;', 'ó')
-            .replace('&#xE9;', 'é');
-
-        return strReplaced;
-    }
-
     getCinemasURLs() {
-        let _this = this;
         return new Promise((resolve, reject) => {
             const url = 'http://www.cinesystem.com.br';
             super.getStaticPage(url)
                 .then(($) => {
-                    let placesArr = [];
-                    let cinemaObj = {
-                        place: String,
-                        place_label: String,
-                        city: String,
-                        city_label: String,
-                        url: String
-                    };
+                    let urlsArr = [];
 
-                    let ulElem = $('.menu li:nth-child(6) div:nth-child(2) ul:nth-child(1)').html();
-                    ulElem = ulElem
-                        .replace('/<li>/g', '')
-                        .replace('/</li>/g', '')
-                        .replace('<li class="arrow">', '');
-                    let urls = ulElem.match(/<a(.*?)<\/a>/g);
-                    urls.forEach(function(v, k) {
-                        let temp = v.split(/"(.*?)"/)[2].replace('>', '').replace('</a>', '')
+                    $('#topo div div ul li:nth-child(7) div ul li').each((key, link) => {
+                        let temp = $(link).text().match(/[^()]+/g);
+                        if (temp) {
+                            let cinemaObj = {
+                                place: String,
+                                place_label: String,
+                                city: String,
+                                city_label: String,
+                                url: String
+                            };
 
-                        let urlCinema = url + v.match(/"(.*?)"/)[1];
-                        let place_label = _this.replaceHtmlChars(temp.match(/\((.*?)\)/)[1].trim()).toLowerCase();
-                        let place = _this.stringNormalize(place_label);
-                        let city_label = _this.replaceHtmlChars(temp.match(/[^()]+/)[0].trim()).toLowerCase();
-                        let city = _this.stringNormalize(city_label);
+                            var city = temp[0].trim();
+                            var place = temp[1].trim();
 
-                        cinemaObj.place = place;
-                        cinemaObj.place = place;
-                        cinemaObj.place_label = place_label;
-                        cinemaObj.city = city;
-                        cinemaObj.city_label = city_label;
-                        cinemaObj.url = urlCinema;
+                            // labels
+                            cinemaObj.city_label = city;
+                            cinemaObj.place_label = place;
 
-                        placesArr.push(cinemaObj);
+                            // normalized
+                            cinemaObj.place = super.stringNormalize(place);
+                            cinemaObj.city = super.stringNormalize(city);
+
+                            // url
+                            cinemaObj.url = url + $(link).find('a').attr('href');
+                            urlsArr.push(cinemaObj);
+                        }
                     });
 
-                    _this.writeUrlsFile('cinesystem', placesArr)
+                    super.writeUrlsFile('cinesystem', urlsArr)
                         .then(function(val) {
                             return resolve(val);
                         })
