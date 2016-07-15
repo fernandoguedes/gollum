@@ -1,14 +1,15 @@
 'use strict';
 
 // Require node_modules dependencies
-let path = require('path');
-let rp = require('request-promise');
-let $ = require('cheerio');
-let jsdom = require('jsdom');
-let fs = require('fs');
+const path = require('path');
+const rp = require('request-promise');
+const $ = require('cheerio');
+const jsdom = require('jsdom');
+const fs = require('fs');
+const _ = require('lodash');
 
 // Require other classes, files or configs
-const staticDir = path.join(__dirname, '../static/', 'urls.{{cinema}}.json');
+// const staticDir = path.join(__dirname, '../static/', 'urls.{{cinema}}.json');
 
 module.exports = class MainCrawler {
 
@@ -34,8 +35,6 @@ module.exports = class MainCrawler {
                     return reject(error);
                 });
         });
-
-
     }
 
     getDynamicPage(url) {
@@ -70,6 +69,7 @@ module.exports = class MainCrawler {
     }
 
     writeUrlsFile(cinema, data) {
+        let staticDir = this.staticDir + 'urls.{{cinema}}.json';
         let dataStringified = JSON.stringify(data);
         let fileDir = staticDir.replace('{{cinema}}', cinema);
 
@@ -82,7 +82,39 @@ module.exports = class MainCrawler {
                 return resolve(dataStringified)
             });
         });
-
     }
+
+    getUrlsFromFiles(grouped) {
+        const staticDir = this.staticDir();
+        const files = fs.readdirSync(staticDir);
+        let cinemas = [];
+
+        files.forEach((file) => {
+            // if (file !== 'urls.default.json') {
+            if (file == 'urls.cinesystem.json') {
+                let fileDir = staticDir + file;
+                let obj = JSON.parse(fs.readFileSync(fileDir, 'utf-8'));
+                cinemas.push(obj);
+            }
+        });
+
+        cinemas = _.flattenDeep(cinemas);
+
+        if (grouped) {
+            let urlsCitiesGrouped = _.chain(cinemas)
+                .orderBy('city')
+                .groupBy('city')
+                .value();
+
+            return urlsCitiesGrouped;
+        }
+
+        return cinemas;
+    }
+
+    staticDir() {
+        return path.join(__dirname, '../static/');
+    }
+
 
 }
