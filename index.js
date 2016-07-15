@@ -11,5 +11,5 @@ let CinesystemCrawler = require(path.join(__dirname, 'modules', 'cinesystem.craw
 module.exports = {
     CinemarkCrawler: new CinemarkCrawler(),
     CinespacoCrawler: new CinespacoCrawler(),
-    Cinesystem: new Cinesystem()
+    CinesystemCrawler: new CinesystemCrawler()
 }
