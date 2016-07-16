@@ -9,9 +9,9 @@ let MainCrawler = require(path.join(__dirname, '../modules', 'main.crawler.class
 
 module.exports = class CinesystemCrawler extends MainCrawler {
 
-    getSchedule(url, city) {
+    getSchedule(url) {
         return new Promise((resolve, reject) => {
-            this._mineSite(url, city)
+            this._mineSite(url)
                 .then(function(schedule) {
                     return resolve(schedule);
                 });
@@ -19,9 +19,10 @@ module.exports = class CinesystemCrawler extends MainCrawler {
         });
     }
 
-    _mineSite(url, city) {
+    _mineSite(url) {
         let _this = this;
-        let headers = _this._getHeaders(city);
+        let headers = _this._getHeaders(url);
+        url = 'http://cinespaco.com.br/em-cartaz/';
 
         return new Promise((resolve, reject) => {
             super.getStaticPage(url, headers)
@@ -82,17 +83,23 @@ module.exports = class CinesystemCrawler extends MainCrawler {
         });
     }
 
-    // @TODO: Get all codes from cookies
-    _getCityCookie(city) {
-        let cities = {
-            'florianopolis': 8
+    _getCityCookie(url) {
+        let urls = {
+            'http://cinespaco.com.br/cidade/florianopolis': 8,
+            'http://cinespaco.com.br/cidade/joao-pessoa': 5,
+            'http://cinespaco.com.br/cidade/novo-hamburgo': 1,
+            'http://cinespaco.com.br/cidade/porto-alegre': 11,
+            'http://cinespaco.com.br/cidade/rio-de-janeiro': 12,
+            'http://cinespaco.com.br/cidade/santos': 13,
+            'http://cinespaco.com.br/cidade/sao-goncalo': 9,
+            'http://cinespaco.com.br/cidade/tubarao': 14
         };
 
-        return `sec_cidade=${cities[city]}`;
+        return `sec_cidade=${urls[url]}` || 'URL não mapeada.' ;
     }
 
-    _getHeaders(city) {
-        let cookie = this._getCityCookie(city);
+    _getHeaders(url) {
+        let cookie = this._getCityCookie(url);
         let headers = {
             'Cookie': cookie
         };
@@ -107,15 +114,16 @@ module.exports = class CinesystemCrawler extends MainCrawler {
             super.getStaticPage(url)
                 .then(($) => {
                     let placesArr = [];
-                    let cinemaObj = {
-                        place: String,
-                        place_label: String,
-                        city: String,
-                        city_label: String,
-                        url: String
-                    };
 
                     $('li').each(function() {
+                        let cinemaObj = {
+                            place: String,
+                            place_label: String,
+                            city: String,
+                            city_label: String,
+                            url: String
+                        };
+
                         let place = _this.stringNormalize($(this).find('a').text());
                         let place_normalized = $(this).find('a').text().toLowerCase();
                         cinemaObj.place_label = place_normalized;

@@ -7,8 +7,7 @@ let path = require('path');
 let Cinespaco = require(path.join(__dirname, '../../modules', 'cinespaco.crawler.class'));
 
 describe('Cinespaço', () => {
-    const url = 'http://cinespaco.com.br/em-cartaz/';
-    const city = 'florianopolis';
+    const url = 'http://cinespaco.com.br/cidade/florianopolis';
 
     let Crawler;
 
@@ -17,7 +16,7 @@ describe('Cinespaço', () => {
     });
 
     it('getSchedule(): Should return schedule JSON', (done) => {
-        Crawler.getSchedule(url, city)
+        Crawler.getSchedule(url)
             .then(function(json) {
                 expect(json.city)
                     .to.be.equal('Florianópolis');
