@@ -13,7 +13,7 @@ describe('RoutineCrawler', () => {
         Crawler = new RoutineCrawler();
     });
 
-    it.only('start(): Should starts routine of crawling', (done) => {
+    it('start(): Should starts routine of crawling', (done) => {
         Crawler.start()
             .then(function(json) {
                 done();

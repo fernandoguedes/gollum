@@ -8,9 +8,6 @@ const jsdom = require('jsdom');
 const fs = require('fs');
 const _ = require('lodash');
 
-// Require other classes, files or configs
-// const staticDir = path.join(__dirname, '../static/', 'urls.{{cinema}}.json');
-
 module.exports = class MainCrawler {
 
     getStaticPage(url, headers) {
@@ -69,12 +66,12 @@ module.exports = class MainCrawler {
     }
 
     writeUrlsFile(cinema, data) {
-        let staticDir = this.staticDir + 'urls.{{cinema}}.json';
+        let STATIC_DIR = this.staticDir() + 'urls.{{cinema}}.json';
+        let FILE_DIR = STATIC_DIR.replace('{{cinema}}', cinema);
         let dataStringified = JSON.stringify(data);
-        let fileDir = staticDir.replace('{{cinema}}', cinema);
 
         return new Promise(function(resolve, reject) {
-            fs.writeFile(fileDir, dataStringified, function(err) {
+            fs.writeFile(FILE_DIR, dataStringified, function(err) {
                 if (err) {
                     return reject(err);
                 }
@@ -85,15 +82,15 @@ module.exports = class MainCrawler {
     }
 
     getUrlsFromFiles(grouped) {
-        const staticDir = this.staticDir();
-        const files = fs.readdirSync(staticDir);
+        const STATIC_DIR = this.staticDir();
+        const FILES = fs.readdirSync(STATIC_DIR);
         let cinemas = [];
 
-        files.forEach((file) => {
+        FILES.forEach((file) => {
             // if (file !== 'urls.default.json') {
             if (file == 'urls.cinesystem.json') {
-                let fileDir = staticDir + file;
-                let obj = JSON.parse(fs.readFileSync(fileDir, 'utf-8'));
+                const FILE_DIR = STATIC_DIR + file;
+                let obj = JSON.parse(fs.readFileSync(FILE_DIR, 'utf-8'));
                 cinemas.push(obj);
             }
         });
@@ -113,7 +110,8 @@ module.exports = class MainCrawler {
     }
 
     staticDir() {
-        return path.join(__dirname, '../static/');
+        let dir = path.join(__dirname, '../static/');
+        return dir;
     }
 
 
