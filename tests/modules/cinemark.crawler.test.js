@@ -8,14 +8,14 @@ let CinemarkCrawler = require(path.join(__dirname, '../../modules/', 'cinemark.c
 
 describe('CinemarkCrawler', () => {
 
-    const url = 'http://cinemark.com.br/programacao/florianopolis/floripa-shopping/24/703';
     let Crawler;
 
-    before(function() {
+    beforeEach(function() {
         Crawler = new CinemarkCrawler();
     });
 
-    it('getSchedule(): Should return a valid schedule JSON', (done) => {
+    it('getSchedule(): Should return a valid schedule JSON from Florianópolis cinema', (done) => {
+        let url = 'http://cinemark.com.br/programacao/florianopolis/floripa-shopping/24/703';
         Crawler.getSchedule(url)
             .then(function(json) {
                 expect(json.city)
@@ -23,6 +23,24 @@ describe('CinemarkCrawler', () => {
 
                 expect(json.place)
                     .to.be.equal('Floripa Shopping');
+
+                expect(json.sessions)
+                    .to.not.be.null;
+
+                done();
+            })
+            .catch(done);
+    });
+
+    it('getSchedule(): Should return a valid schedule JSON from Tatuapé/SP cinema', (done) => {
+        let url = 'http://cinemark.com.br/programacao/sao-paulo/boulevard-tatuape/1/690';
+        Crawler.getSchedule(url)
+            .then(function(json) {
+                expect(json.city)
+                    .to.be.equal('São Paulo');
+
+                expect(json.place)
+                    .to.be.equal('Boulevard Tatuape');
 
                 expect(json.sessions)
                     .to.not.be.null;
