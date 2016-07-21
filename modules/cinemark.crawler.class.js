@@ -12,6 +12,7 @@ let MainCrawler = require(path.join(__dirname, '../modules', 'main.crawler.class
 module.exports = class CinemarkCrawler extends MainCrawler {
 
     getSchedule(url) {
+        this._url = url;
         return new Promise((resolve, reject) => {
             this._mineSite(url)
                 .then(function(schedule) {
@@ -74,7 +75,11 @@ module.exports = class CinemarkCrawler extends MainCrawler {
 
     _getDOM() {
         let date = moment().format('YYYY-MM-DD');
-        let dom = '#date-{{date}}-703 div.filme'.replace('{{date}}', date);
+        let code = this._url.substr(this._url.lastIndexOf('/') + 1);
+        let dom = '#date-{{date}}-{{code}} div.filme'
+            .replace('{{date}}', date)
+            .replace('{{code}}', code);
+            
         return dom;
     }
 
