@@ -125,6 +125,7 @@ function getAllCinemas() {
     let cinemasArr = [];
     _Cinemas.forEach(function(val, key) {
         let cinemaObj = {
+            cinema: 'cinemark',
             place: String,
             place_label: String,
             city: stringNormalize(_Cidades[key]),
@@ -138,6 +139,7 @@ function getAllCinemas() {
             val.forEach(function(v, k) {
 
                 let cinemaObj = {
+                    cinema: 'cinemark',
                     place: String,
                     place_label: String,
                     city: stringNormalize(_Cidades[key]),
@@ -146,6 +148,16 @@ function getAllCinemas() {
                 };
 
                 if (isOdd(k)) {
+                    let cinemaObj = {
+                        cinema: 'cinemark',
+                        place: String,
+                        place_label: String,
+                        city: stringNormalize(_Cidades[key]),
+                        city_label: _Cidades[key].toLowerCase(),
+                        cityId: key,
+                        url: String
+                    };
+
                     cinemaObj.id = val[k - 1];
                     cinemaObj.place = stringNormalize(v);
                     cinemaObj.place_label = v.toLowerCase();
@@ -171,7 +183,6 @@ function getAllCinemas() {
     });
 
     const dir = path.join(__dirname, '../static/', 'urls.cinemark.json');
-    console.log(cinemasArr);
     fs.writeFile(dir, JSON.stringify(cinemasArr), function(err) {
 
         if (err) {
