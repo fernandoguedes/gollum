@@ -80,6 +80,7 @@ module.exports = class CinesystemCrawler extends MainCrawler {
                         let temp = $(link).text().match(/[^()]+/g);
                         if (temp) {
                             let cinemaObj = {
+                                cinema: 'cinesystem',
                                 place: String,
                                 place_label: String,
                                 city: String,

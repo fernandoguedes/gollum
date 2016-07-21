@@ -117,6 +117,7 @@ module.exports = class CinesystemCrawler extends MainCrawler {
 
                     $('li').each(function() {
                         let cinemaObj = {
+                            cinema: 'cinespaco',
                             place: String,
                             place_label: String,
                             city: String,
@@ -134,7 +135,7 @@ module.exports = class CinesystemCrawler extends MainCrawler {
                         placesArr.push(cinemaObj);
                     });
 
-                    _this.writeUrlsFile('cinespaco', placesArr)
+                    super.writeUrlsFile('cinespaco', placesArr)
                         .then(function(data) {
                             return resolve(data);
                         })
