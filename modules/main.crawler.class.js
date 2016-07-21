@@ -87,12 +87,9 @@ module.exports = class MainCrawler {
         let cinemas = [];
 
         FILES.forEach((file) => {
-            // if (file !== 'urls.default.json') {
-            if (file == 'urls.cinesystem.json') {
-                const FILE_DIR = STATIC_DIR + file;
-                let obj = JSON.parse(fs.readFileSync(FILE_DIR, 'utf-8'));
-                cinemas.push(obj);
-            }
+            const FILE_DIR = STATIC_DIR + file;
+            let obj = JSON.parse(fs.readFileSync(FILE_DIR, 'utf-8'));
+            cinemas.push(obj);
         });
 
         cinemas = _.flattenDeep(cinemas);
