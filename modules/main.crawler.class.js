@@ -38,13 +38,14 @@ module.exports = class MainCrawler {
         return new Promise(function(resolve, reject) {
             jsdom.env({
                 url: url,
-                scripts: ["http://code.jquery.com/jquery.js"],
+                scripts: ['http://code.jquery.com/jquery.min.js'],
                 done: function (err, window) {
                     if (err) {
                         return reject(err);
                     }
 
                     let $ = window.$;
+
                     return resolve($);
                 }
             });
