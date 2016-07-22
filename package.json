@@ -4,7 +4,7 @@
   "description": "Gollum is specialized crawler in cinemas sites.",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive tests/ --timeout 50000"
+    "test": "./node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive tests/ --timeout 60000"
   },
   "repository": {
     "type": "git",
