@@ -27,7 +27,7 @@ module.exports = class CinemarkCrawler extends MainCrawler {
             super.getDynamicPage(url)
                 .then(function($) {
                     let movies = [];
-                    let dom = _this._getDOM();
+                    let dom = _this._getDOM(url);
                     let cinema = {
                         name: 'cinemark',
                         city: String,
@@ -63,6 +63,7 @@ module.exports = class CinemarkCrawler extends MainCrawler {
                             special: special,
                             hours: hours
                         };
+
                         movies.push(movie);
                     });
 
@@ -73,13 +74,13 @@ module.exports = class CinemarkCrawler extends MainCrawler {
         });
     }
 
-    _getDOM() {
+    _getDOM(url) {
         let date = moment().format('YYYY-MM-DD');
-        let code = this._url.substr(this._url.lastIndexOf('/') + 1);
+        let code = url.substr(url.lastIndexOf('/') + 1);
         let dom = '#date-{{date}}-{{code}} div.filme'
             .replace('{{date}}', date)
             .replace('{{code}}', code);
-            
+
         return dom;
     }
 
