@@ -7,7 +7,7 @@ let cheerio = require('cheerio');
 // Require other classes, files or configs
 let MainCrawler = require(path.join(__dirname, '../modules', 'main.crawler.class'));
 
-module.exports = class CinesystemCrawler extends MainCrawler {
+module.exports = class CinespacoCrawler extends MainCrawler {
 
     getSchedule(url) {
         return new Promise((resolve, reject) => {
