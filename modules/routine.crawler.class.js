@@ -42,6 +42,9 @@ module.exports = class RoutineCrawler extends MainCrawler {
                     case 'cinespaco':
                         requestArr.push(Crawlers.CinespacoCrawler.getSchedule(urlObj.url));
                         break;
+                    case 'cinemark':
+                        requestArr.push(Crawlers.CinemarkCrawler.getSchedule(urlObj.url));
+                        break;
                 }
             });
 
@@ -70,7 +73,6 @@ module.exports = class RoutineCrawler extends MainCrawler {
 
     saveResults(arrResults) {
         return new Promise((resolve, reject) => {
-
             schedulesSchema.insertMany(arrResults, (err, docs) => {
               if (err) {
                   return reject(err);
