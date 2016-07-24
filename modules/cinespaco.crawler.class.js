@@ -30,7 +30,7 @@ module.exports = class CinespacoCrawler extends MainCrawler {
                     let movies = [];
                     let dom = '#programacao tr';
                     let cinema = {
-                        name: 'cinesystem',
+                        cinema: 'cinespaco',
                         city: String,
                         city_normalized: String,
                         place: String,

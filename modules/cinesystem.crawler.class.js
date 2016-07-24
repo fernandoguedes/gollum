@@ -27,7 +27,7 @@ module.exports = class CinesystemCrawler extends MainCrawler {
                     let movies = [];
                     let dom = '.repeat-filmes li';
                     let cinema = {
-                        name: 'cinesystem',
+                        cinema: 'cinesystem',
                         city: String,
                         city_normalized: String,
                         place: String,
