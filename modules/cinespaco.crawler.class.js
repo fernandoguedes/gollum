@@ -32,7 +32,9 @@ module.exports = class CinespacoCrawler extends MainCrawler {
                     let cinema = {
                         name: 'cinesystem',
                         city: String,
+                        city_normalized: String,
                         place: String,
+                        place_normalized: String,
                         sessions: []
                     };
 
@@ -42,10 +44,12 @@ module.exports = class CinespacoCrawler extends MainCrawler {
                     cinema.city = city;
                     cinema.place = place;
 
+                    cinema.city_normalized = _this.stringNormalize(city);
+                    cinema.place_normalized = _this.stringNormalize(place);
+
                     $(dom).each(function() {
                         let special;
                         let title = $(this).find('.filme_nome').text();
-                        let normalized = _this.stringNormalize(title); // super
                         let type = $(this).find('.atributos').text();
 
                         $(this).find('.obs').remove()
@@ -66,7 +70,6 @@ module.exports = class CinespacoCrawler extends MainCrawler {
 
                         let movie = {
                             title: title,
-                            normalized: normalized,
                             type: type,
                             censorship: null,
                             special: special,

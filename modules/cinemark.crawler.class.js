@@ -12,7 +12,6 @@ let MainCrawler = require(path.join(__dirname, '../modules', 'main.crawler.class
 module.exports = class CinemarkCrawler extends MainCrawler {
 
     getSchedule(url) {
-        this._url = url;
         return new Promise((resolve, reject) => {
             this._mineSite(url)
                 .then(function(schedule) {
@@ -29,17 +28,22 @@ module.exports = class CinemarkCrawler extends MainCrawler {
                     let movies = [];
                     let dom = _this._getDOM(url);
                     let cinema = {
-                        name: 'cinemark',
+                        cinema: 'cinemark',
                         city: String,
+                        city_normalized: String,
                         place: String,
+                        place_normalized: String,
                         sessions: []
                     };
 
-                    $('h3').filter(function(i, elem) {
+                    $('h3').filter((i, elem) => {
                         let info = $(elem).text();
                         info = info.split('-');
                         cinema.place = info[0].replace(/\s+$/, '');
                         cinema.city = info[1].replace(/^\s+/, '');
+
+                        cinema.place_normalized = _this.stringNormalize(cinema.place);
+                        cinema.city_normalized = _this.stringNormalize(cinema.city);
                     });
 
                     $(dom).each(function() {

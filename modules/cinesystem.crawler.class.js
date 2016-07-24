@@ -29,7 +29,9 @@ module.exports = class CinesystemCrawler extends MainCrawler {
                     let cinema = {
                         name: 'cinesystem',
                         city: String,
+                        city_normalized: String,
                         place: String,
+                        place_normalized: String,
                         sessions: []
                     };
 
@@ -41,18 +43,20 @@ module.exports = class CinesystemCrawler extends MainCrawler {
                     cinema.city = city;
                     cinema.place = place;
 
+                    cinema.city_normalized = _this.stringNormalize(city);
+                    cinema.place_normalized =  _this.stringNormalize(place);
+
                     $(dom).each(function() {
                         let title = $(this).find('div table tbody td h2').text();
-                        let normalized = _this.stringNormalize(title); // super
                         let type = $(this).find('.sessoes table tbody tr td').eq(0).text().trim();
                         $(this).find('.sessoes table tbody tr td strong').remove()
                         let hours = $(this).find('.sessoes table tbody tr td').eq(1).html().trim();
                         let special = $(this).find('.categoria img').attr('src') ? true : false;
                         hours = hours.replace(/ /g,'').replace(/,/g, '');
                         hours = hours.match(/.{1,5}/g);
+
                         let movie = {
                             title: title,
-                            normalized: normalized,
                             type: type,
                             censorship: null,
                             special: special,
