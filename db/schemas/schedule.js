@@ -6,6 +6,7 @@ let Schema = mongoose.Schema;
 const cinemaSchedule = new Schema({
     cinema: String,
     place: String,
+    city: String,
     place_normalized: String,
     city_normalized: String,
     sessions: [{
