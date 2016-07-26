@@ -2,7 +2,7 @@
 let expect = require('chai').expect;
 let path   = require('path');
 
-let PlayarteCrawler = require(path.join(__dirname, '../../modules/', 'cinemark.crawler.class'));
+let PlayarteCrawler = require(path.join(__dirname, '../../modules/', 'playarte.crawler.class'));
 
 
 describe('PlayarteCrawler', () => {
