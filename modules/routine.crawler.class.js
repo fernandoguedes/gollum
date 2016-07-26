@@ -7,10 +7,14 @@ const _ = require('lodash');
 const async = require('async');
 
 // Require other classes, files or configs
-const MainCrawler = require(path.join(__dirname, '../modules', 'main.crawler.class'));
-const Crawlers = require(path.join(__dirname, '../', 'index'));
 const Mongoose = require(path.join(__dirname, '../db/', 'mongoose.conf'));
 const schedulesSchema = require(path.join(__dirname, '../db/schemas/', 'schedule'));
+
+// Require crawlers
+const MainCrawler = require(path.join(__dirname, '../modules', 'main.crawler.class'));
+const CinemarkCrawler = require(path.join(__dirname, '/', 'cinemark.crawler.class'));
+const CinespacoCrawler = require(path.join(__dirname, '/', 'cinespaco.crawler.class'));
+const CinesystemCrawler = require(path.join(__dirname, '/', 'cinesystem.crawler.class'));
 
 module.exports = class RoutineCrawler extends MainCrawler {
 
@@ -33,6 +37,12 @@ module.exports = class RoutineCrawler extends MainCrawler {
     createQueue(urlsArr) {
         return new Promise((resolve, reject) => {
             let requestArr = [];
+
+            let Crawlers = {
+                CinesystemCrawler: new CinesystemCrawler,
+                CinespacoCrawler: new CinespacoCrawler,
+                CinemarkCrawler: new CinemarkCrawler
+            };
 
             urlsArr.forEach((urlObj) => {
                 switch (urlObj.cinema) {
