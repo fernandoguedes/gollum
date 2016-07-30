@@ -23,30 +23,28 @@ And others under construction, [contribute](https://github.com/fernandoguedes/go
 
 Avaliable two ways to use **Gollum Crawlers**, both cases return a `Promise`.
 
-### Require Gollum
-
-```javascript
-let gollum = require('gollum-nocinema');
-let url = 'http://cinemark.com.br/programacao/florianopolis/floripa-shopping/24/703'; // valid cinemark url
-
-gollum
-    .CinemarkCrawler
-        .getSchedule(url)
-            .then(function(schedule) {
-                console.log('Schedule of Cinemark in JSON: ', schedule);
-            })
-            .catch(function(err) {
-                console.log(err);
-            });
-```
-### Require Gollum with a specific crawler
+### Pass url as argument
 
 ```javascript
 let CinemarkCrawler = require('gollum-nocinema').CinemarkCrawler;
 let url = 'http://cinemark.com.br/programacao/florianopolis/floripa-shopping/24/703'; // valid cinemark url
 
 CinemarkCrawler
-    .getSchedule(url)
+    .getScheduleByUrl(url)
+        .then(function(schedule) {
+            console.log('Schedule of Cinemark in JSON: ', schedule);
+        })
+        .catch(function(err) {
+            console.log(err);
+        });
+```
+### Pass city and place as arguments
+
+```javascript
+let CinemarkCrawler = require('gollum-nocinema').CinemarkCrawler;
+
+CinemarkCrawler
+    .getScheduleByCityAndPlace('florianopolis', 'floripa shopping')
         .then(function(schedule) {
             console.log('Schedule of Cinemark in JSON: ', schedule);
         })
