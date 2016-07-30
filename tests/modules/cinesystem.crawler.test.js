@@ -13,6 +13,24 @@ describe('CinesystemCrawler', () => {
         Crawler = new CinesystemCrawler();
     });
 
+    it('getScheduleByUrl(): Should return schedule JSON', (done) => {
+        const url = 'http://www.cinesystem.com.br/florianopolis/programacao';
+        Crawler.getScheduleByUrl(url)
+            .then(function(json) {
+                expect(json.city)
+                    .to.be.equal('Florianópolis');
+
+                expect(json.place)
+                    .to.be.equal('Shopping Center Iguatemi');
+
+                expect(json.sessions)
+                    .to.not.be.null;
+
+                done();
+            })
+            .catch(done);
+    });
+
     it('getScheduleByCityAndPlace(): Should return schedule JSON', (done) => {
         Crawler.getScheduleByCityAndPlace('florianopolis', 'shopping center iguatemi')
             .then(function(json) {

@@ -47,13 +47,13 @@ module.exports = class RoutineCrawler extends MainCrawler {
             urlsArr.forEach((urlObj) => {
                 switch (urlObj.cinema) {
                     case 'cinesystem':
-                        requestArr.push(Crawlers.CinesystemCrawler.getSchedule(urlObj.url));
+                        requestArr.push(Crawlers.CinesystemCrawler.getScheduleByUrl(urlObj.url));
                         break;
                     case 'cinespaco':
-                        requestArr.push(Crawlers.CinespacoCrawler.getSchedule(urlObj.url));
+                        requestArr.push(Crawlers.CinespacoCrawler.getScheduleByUrl(urlObj.url));
                         break;
                     case 'cinemark':
-                        requestArr.push(Crawlers.CinemarkCrawler.getSchedule(urlObj.url));
+                        requestArr.push(Crawlers.CinemarkCrawler.getScheduleByUrl(urlObj.url));
                         break;
                 }
             });

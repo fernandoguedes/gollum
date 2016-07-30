@@ -9,6 +9,15 @@ let MainCrawler = require(path.join(__dirname, '../modules', 'main.crawler.class
 
 module.exports = class CinesystemCrawler extends MainCrawler {
 
+    getScheduleByUrl(url) {
+        return new Promise((resolve, reject) => {
+            this._mineSite(url)
+                .then(function(schedule) {
+                    return resolve(schedule);
+                });
+        });
+    }
+
     getScheduleByCityAndPlace(city, place) {
         return new Promise((resolve, reject) => {
             let url = this.getUrlsFromCity('cinesystem', city, place);
