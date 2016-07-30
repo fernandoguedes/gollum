@@ -54,4 +54,12 @@ describe('MainCrawler', () => {
             })
             .catch(done);
     });
+
+    it('Should return a url object array according with the city, cinema and place args', (done) => {
+        let urlsObj = Crawler.getUrlsFromCity('cinemark', 'sao paulo', 'eldorado');
+        expect(urlsObj).to.not.be.null;
+        done();
+    });
+
+
 });

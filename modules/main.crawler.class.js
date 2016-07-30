@@ -107,6 +107,35 @@ module.exports = class MainCrawler {
         return cinemas;
     }
 
+    getUrlsFromCity(cinema, city, place) {
+
+        if (!place) {
+            return "Você precisa especificar um local.";
+        }
+
+        let fileContent = JSON.parse(fs.readFileSync(`${this.staticDir()}urls.${cinema}.json`, 'utf-8'));
+
+        let urlsCitiesGrouped = _.chain(fileContent)
+            .groupBy('city')
+            .value();
+
+        let urlsFromCity = urlsCitiesGrouped[city];
+
+        /** if only exists one place **/
+        if (urlsFromCity.length === 1) {
+            return urlsFromCity[0].url;
+        /** if only exists two places or more **/
+        } else if (urlsFromCity.length > 1) {
+            for (var i = 0; i < urlsFromCity.length; i++) {
+                if (urlsFromCity[i].place == place) {
+                    return urlsFromCity[i].url;
+                }
+            }
+        } else {
+            return 'Não foi encontrada nenhuma URL para essa cidade, para esse cinema e para esse lugar! :(';
+        }
+    }
+
     staticDir() {
         let dir = path.join(__dirname, '../static/');
         return dir;
