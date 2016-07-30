@@ -7,16 +7,14 @@ let path = require('path');
 let Cinespaco = require(path.join(__dirname, '../../modules', 'cinespaco.crawler.class'));
 
 describe('Cinespaço', () => {
-    const url = 'http://cinespaco.com.br/cidade/florianopolis';
-
     let Crawler;
 
     before(function() {
         Crawler = new Cinespaco();
     });
 
-    it('getSchedule(): Should return schedule JSON', (done) => {
-        Crawler.getSchedule(url)
+    it('getScheduleByCityAndPlace(): Should return schedule JSON', (done) => {
+        Crawler.getScheduleByCityAndPlace('florianopolis', 'florianopolis')
             .then(function(json) {
                 expect(json.city)
                     .to.be.equal('Florianópolis');

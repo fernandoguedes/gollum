@@ -14,9 +14,8 @@ describe('CinemarkCrawler', () => {
         Crawler = new CinemarkCrawler();
     });
 
-    it('getSchedule(): Should return a valid schedule JSON from Florianópolis cinema', (done) => {
-        let url = 'http://cinemark.com.br/programacao/florianopolis/floripa-shopping/24/703';
-        Crawler.getSchedule(url)
+    it('getScheduleByCityAndPlace(): Should return a valid schedule JSON from Florianópolis cinema', (done) => {
+        Crawler.getScheduleByCityAndPlace('florianopolis', 'floripa shopping')
             .then(function(json) {
                 expect(json.city)
                     .to.be.equal('Florianópolis');
@@ -32,9 +31,8 @@ describe('CinemarkCrawler', () => {
             .catch(done);
     });
 
-    it('getSchedule(): Should return a valid schedule JSON from Tatuapé/SP cinema', (done) => {
-        let url = 'http://cinemark.com.br/programacao/sao-paulo/boulevard-tatuape/1/690';
-        Crawler.getSchedule(url)
+    it('getScheduleByCityAndPlace(): Should return a valid schedule JSON from Tatuapé/SP cinema', (done) => {
+        Crawler.getScheduleByCityAndPlace('sao paulo', 'boulevard tatuape')
             .then(function(json) {
                 expect(json.city)
                     .to.be.equal('São Paulo');

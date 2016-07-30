@@ -7,15 +7,14 @@ let path = require('path');
 let CinesystemCrawler = require(path.join(__dirname, '../../modules', 'cinesystem.crawler.class'));
 
 describe('CinesystemCrawler', () => {
-    const url = 'http://www.cinesystem.com.br/florianopolis/programacao';;
     let Crawler;
 
     before(function() {
         Crawler = new CinesystemCrawler();
     });
 
-    it('getSchedule(): Should return schedule JSON', (done) => {
-        Crawler.getSchedule(url)
+    it('getScheduleByCityAndPlace(): Should return schedule JSON', (done) => {
+        Crawler.getScheduleByCityAndPlace('florianopolis', 'shopping center iguatemi')
             .then(function(json) {
                 expect(json.city)
                     .to.be.equal('Florianópolis');

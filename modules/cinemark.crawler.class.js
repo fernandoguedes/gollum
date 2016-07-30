@@ -2,6 +2,7 @@
 
 // Require node_modules dependencies
 let path = require('path');
+let fs = require('fs');
 let cheerio = require('cheerio');
 let moment = require('moment');
 let _ = require('lodash');
@@ -11,7 +12,9 @@ let MainCrawler = require(path.join(__dirname, '../modules', 'main.crawler.class
 
 module.exports = class CinemarkCrawler extends MainCrawler {
 
-    getSchedule(url) {
+    getScheduleByCityAndPlace(city, place) {
+        let url = this.getUrlsFromCity('cinemark', city, place);
+
         return new Promise((resolve, reject) => {
             this._mineSite(url)
                 .then(function(schedule) {
