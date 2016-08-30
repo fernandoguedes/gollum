@@ -1,7 +1,7 @@
 {
   "name": "gollum-nocinema",
   "version": "0.2.3",
-  "description": "Gollum is specialized crawler in cinemas sites.",
+  "description": "Gollum is a specialized cinema websites crawler.",
   "main": "index.js",
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha --compilers js:babel-core/register --recursive tests/ --timeout 60000"
