@@ -6,10 +6,6 @@ const fs = require('fs');
 const _ = require('lodash');
 const async = require('async');
 
-// Require other classes, files or configs
-const Mongoose = require(path.join(__dirname, '../db/', 'mongoose.conf'));
-const schedulesSchema = require(path.join(__dirname, '../db/schemas/', 'schedule'));
-
 // Require crawlers
 const MainCrawler = require(path.join(__dirname, '../modules', 'main.crawler.class'));
 const CinemarkCrawler = require(path.join(__dirname, '/', 'cinemark.crawler.class'));
@@ -24,7 +20,6 @@ module.exports = class RoutineCrawler extends MainCrawler {
 
             this.createQueue(urlsArr)
                 .then(this.doRequests)
-                .then(this.saveResults)
                 .then((json) => {
                     return resolve(json);
                 })
@@ -52,9 +47,6 @@ module.exports = class RoutineCrawler extends MainCrawler {
                     case 'cinespaco':
                         requestArr.push(Crawlers.CinespacoCrawler.getScheduleByUrl(urlObj.url));
                         break;
-                    case 'cinemark':
-                        requestArr.push(Crawlers.CinemarkCrawler.getScheduleByUrl(urlObj.url));
-                        break;
                 }
             });
 
@@ -69,9 +61,9 @@ module.exports = class RoutineCrawler extends MainCrawler {
             async.each(requestArr, function(item, callback) {
                 item.then(function(val) {
                     resultsArr.push(val);
-                    callback();
+                    setTimeout(callback, 5000);
                 });
-            }, function(err) {
+            }, function(err, results) {
                 if (err) {
                     return reject(err);
                 }
@@ -80,18 +72,4 @@ module.exports = class RoutineCrawler extends MainCrawler {
             });
         });
     }
-
-    saveResults(arrResults) {
-        return new Promise((resolve, reject) => {
-            schedulesSchema.insertMany(arrResults, (err, docs) => {
-              if (err) {
-                  return reject(err);
-              }
-
-              return resolve(docs);
-            });
-        });
-    }
-
-
 }
