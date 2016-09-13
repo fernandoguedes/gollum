@@ -82,16 +82,22 @@ module.exports = class MainCrawler {
         });
     }
 
-    getUrlsFromFiles(grouped) {
+    getUrlsFromFiles(cinema, grouped) {
         const STATIC_DIR = this.staticDir();
         const FILES = fs.readdirSync(STATIC_DIR);
         let cinemas = [];
 
-        FILES.forEach((file) => {
-            const FILE_DIR = STATIC_DIR + file;
+        if (cinema) {
+            const FILE_DIR = `${STATIC_DIR}urls.${cinema}.json`;
             let obj = JSON.parse(fs.readFileSync(FILE_DIR, 'utf-8'));
             cinemas.push(obj);
-        });
+        } else {
+            FILES.forEach((file) => {
+                const FILE_DIR = `${STATIC_DIR}${file}`;
+                let obj = JSON.parse(fs.readFileSync(FILE_DIR, 'utf-8'));
+                cinemas.push(obj);
+            });
+        }
 
         cinemas = _.flattenDeep(cinemas);
 

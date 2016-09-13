@@ -14,9 +14,15 @@ const CinesystemCrawler = require(path.join(__dirname, '/', 'cinesystem.crawler.
 
 module.exports = class RoutineCrawler extends MainCrawler {
 
-    start() {
+    start(cinema) {
         return new Promise((resolve, reject) => {
-            let urlsArr = super.getUrlsFromFiles();
+            let urlsArr;
+
+            if (!cinema) {
+                urlsArr = super.getUrlsFromFiles();
+            } else {
+                urlsArr = super.getUrlsFromFiles(cinema);
+            }
 
             this.createQueue(urlsArr)
                 .then(this.doRequests)
@@ -26,6 +32,7 @@ module.exports = class RoutineCrawler extends MainCrawler {
                 .catch((err) => {
                     return reject(err);
                 });
+
         });
     }
 
@@ -46,6 +53,9 @@ module.exports = class RoutineCrawler extends MainCrawler {
                         break;
                     case 'cinespaco':
                         requestArr.push(Crawlers.CinespacoCrawler.getScheduleByUrl(urlObj.url));
+                        break;
+                    case 'cinemark':
+                        requestArr.push(Crawlers.CinemarkCrawler.getScheduleByUrl(urlObj.url));
                         break;
                 }
             });
