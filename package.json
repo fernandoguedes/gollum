@@ -30,11 +30,11 @@
     "mocha": "^2.5.3"
   },
   "dependencies": {
-    "async": "^2.0.0",
     "cheerio": "^0.20.0",
     "jsdom": "^9.4.1",
     "lodash": "^4.13.1",
     "moment": "^2.13.0",
+    "promise-sequential": "^1.1.1",
     "request-promise": "^3.0.0"
   }
 }

@@ -4,7 +4,7 @@
 const path = require('path');
 const fs = require('fs');
 const _ = require('lodash');
-const async = require('async');
+const sequential = require('promise-sequential');
 
 // Require crawlers
 const MainCrawler = require(path.join(__dirname, '../modules', 'main.crawler.class'));
@@ -66,20 +66,24 @@ module.exports = class RoutineCrawler extends MainCrawler {
 
     doRequests(requestArr) {
         return new Promise((resolve, reject) => {
-            let resultsArr = [];
-
-            async.each(requestArr, function(item, callback) {
-                item.then(function(val) {
-                    resultsArr.push(val);
-                    setTimeout(callback, 5000);
-                });
-            }, function(err, results) {
-                if (err) {
-                    return reject(err);
-                }
-
-                return resolve(resultsArr);
-            });
+			sequential(requestArr.map((item) => {
+				return function(previous, responses, count) {
+					return new Promise(resolve => {
+						setTimeout(() => {
+							console.log(previous);
+							console.log(responses);
+							console.log(count);
+							resolve(item)
+						}, 10000);
+					});
+				}
+			}))
+			.then(items => {
+				return resolve(res);
+			})
+			.catch(err => {
+				return reject(err);
+			});
         });
     }
 }
