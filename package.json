@@ -1,6 +1,6 @@
 {
   "name": "gollum-nocinema",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "description": "Gollum is specialized crawler in cinemas sites.",
   "main": "index.js",
   "scripts": {
