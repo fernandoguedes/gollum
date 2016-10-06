@@ -6,7 +6,7 @@ let path = require('path');
 // Import classes for testing
 let CinemarkCrawler = require(path.join(__dirname, '../../modules/', 'cinemark.crawler.class'));
 
-describe('CinemarkCrawler', () => {
+describe.skip('CinemarkCrawler', () => {
     let Crawler;
 
     beforeEach(function() {
