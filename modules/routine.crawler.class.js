@@ -54,9 +54,6 @@ module.exports = class RoutineCrawler extends MainCrawler {
                     case 'cinespaco':
                         requestArr.push(Crawlers.CinespacoCrawler.getScheduleByUrl(urlObj.url));
                         break;
-                    case 'cinemark':
-                        requestArr.push(Crawlers.CinemarkCrawler.getScheduleByUrl(urlObj.url));
-                        break;
                 }
             });
 
@@ -70,16 +67,13 @@ module.exports = class RoutineCrawler extends MainCrawler {
 				return function(previous, responses, count) {
 					return new Promise(resolve => {
 						setTimeout(() => {
-							console.log(previous);
-							console.log(responses);
-							console.log(count);
 							resolve(item)
-						}, 10000);
+						}, 5000);
 					});
 				}
 			}))
 			.then(items => {
-				return resolve(res);
+				return resolve(items);
 			})
 			.catch(err => {
 				return reject(err);
