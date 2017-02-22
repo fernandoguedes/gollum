@@ -6,7 +6,7 @@ let path = require('path');
 // Import classes for testing
 let RoutineCrawler = require(path.join(__dirname, '../../modules', 'routine.crawler.class'));
 
-describe.only('RoutineCrawler', () => {
+describe.skip('RoutineCrawler', () => {
     let Crawler;
 
     before(function() {
