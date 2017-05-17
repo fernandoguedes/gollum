@@ -17,7 +17,7 @@ module.exports = class CinespacoCrawler extends MainCrawler {
                 });
         });
     }
-    
+
     getScheduleByCityAndPlace(city, place) {
         let url = this.getUrlsFromCity('cinespaco', city, place);
         return new Promise((resolve, reject) => {
@@ -61,6 +61,7 @@ module.exports = class CinespacoCrawler extends MainCrawler {
                         let special;
                         let title = $(this).find('.filme_nome').text();
                         let type = $(this).find('.atributos').text();
+                        let censorship = $(this).find('.classificacao').text();
 
                         $(this).find('.obs').remove()
 
@@ -81,7 +82,7 @@ module.exports = class CinespacoCrawler extends MainCrawler {
                         let movie = {
                             title: title,
                             type: type,
-                            censorship: null,
+                            censorship: censorship,
                             special: special,
                             hours: hours
                         };
@@ -90,6 +91,7 @@ module.exports = class CinespacoCrawler extends MainCrawler {
                     });
 
                     cinema.sessions = movies;
+
                     return resolve(cinema);
 
                 });
